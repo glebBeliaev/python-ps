@@ -1,6 +1,6 @@
-expence_car = 5020.25
-expence_food = 1200.00
-expence_fun = 1000.00
+expence_car = float(input("Введите траты на автомобиль: "))
+expence_food = float(input("Введите траты на еду: "))
+expence_fun = float(input("Введите траты на развлечения: "))
 
 total_expences = expence_car + expence_food + expence_fun
 average_expences = total_expences / 3
