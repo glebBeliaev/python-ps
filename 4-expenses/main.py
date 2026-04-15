@@ -11,11 +11,13 @@ def get_total(expenses: list[float]) -> float:
 
 
 def get_average(expenses: list[float]) -> float:
+    if len(expenses) == 0:
+        return 0
     return sum(expenses) / len(expenses)
 
 
 def delete_expence(expenses: list[float], index: int):
-    del expenses[index]
+    del expenses[index - 1]
     print("Расход удален")
 
 
@@ -43,7 +45,7 @@ while True:
             print_report(my_expenses)
         case "3":
             print("Сумма расходов: " + str(get_total(my_expenses)))
-            print("Средний расход: " + str(get_average(my_expenses)))
+            print("Средний расход: " + str(get_average(my_expenses)) + "\n")
         case "4":
             index = int(input("Введите номер расхода: "))
             delete_expence(my_expenses, index)
