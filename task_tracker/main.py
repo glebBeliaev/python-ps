@@ -1,4 +1,7 @@
+from shlex import split
 from commands.help import help_command
+from commands.tasks import make_task
+from helpers.args import parse_add
 
 
 def main():
@@ -6,13 +9,14 @@ def main():
     while True:
         try:
             raw = input("> ").strip().lower()
-            parts = raw.split()
+            parts = split(raw)
             cmd, args = parts[0], parts[1:]
             match cmd:
                 case "help":
                     help_command()
                 case "add":
-                    pass
+                    title, priority, due, tags = parse_add(args)
+                    print(make_task(1, title, priority, due, tags))
                 case "remove":
                     pass
                 case "edit":
