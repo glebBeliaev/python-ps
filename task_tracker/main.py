@@ -1,10 +1,13 @@
 from shlex import split
 from commands.help import help_command
-from commands.tasks import make_task
-from helpers.args import parse_add
+from tasks.model import Task
+from commands.add import add_command
+from storage.file import save_tasks, load_tasks
 
 
 def main():
+    file_path = "task_tracker/tasks.json"
+    tasks, next_id = load_tasks("path")
     print("Task менеджер. help - для справки")
     while True:
         try:
@@ -15,8 +18,7 @@ def main():
                 case "help":
                     help_command()
                 case "add":
-                    title, priority, due, tags = parse_add(args)
-                    print(make_task(1, title, priority, due, tags))
+                    next_id = add_command(tasks, args, next_id)
                 case "remove":
                     pass
                 case "edit":
@@ -24,13 +26,16 @@ def main():
                 case "tags":
                     pass
                 case "exit":
+                    save_tasks(file_path, tasks)
                     break
                 case _:
                     print("Неизвестная команда")
         except KeyboardInterrupt:
+            save_tasks(file_path, tasks)
             print("\nЗавершение работы...")
             break
         except Exception as e:
+            save_tasks(file_path, tasks)
             print(f"[ERROR]: {e}")
 
 
