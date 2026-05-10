@@ -1,5 +1,6 @@
 """Модуль хранилища данных."""
 
+import json
 from orders import Order
 from utils.helpers import parse_date
 
@@ -8,11 +9,11 @@ def load(path: str) -> tuple[list[Order], int]:
     """Загрузка данных из файла."""
     raw = []
     try:
-        with open(path, "r") as f:
-            raw = f.read()
+        with open(path, "r", encoding="utf-8") as f:
+            raw = json.load(f)
     except FileNotFoundError:
         return [], 1
-    except Exception as e:
+    except json.JSONDecodeError as e:
         print(f"[ERROR]: Поврежден JSON ({path}): {e}")
         return [], 1
 
@@ -55,7 +56,5 @@ def save(path: str, orders: list[Order]):
             for order in orders
         ]
     }
-
-    with open(path, "w") as f:
-        f.write(str(data_orders))
-    print(f"Заказы сохранены в {path}")
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data_orders, f, ensure_ascii=False, indent=2)
