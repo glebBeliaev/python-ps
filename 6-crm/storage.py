@@ -1,7 +1,7 @@
 """Модуль хранилища данных."""
 
 
-def load():
+def load(path: str):
     pass
 
 
